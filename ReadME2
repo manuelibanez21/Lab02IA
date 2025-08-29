@@ -1,0 +1,73 @@
+Entonces armemos una explicación detallada de tu solución, directamente sobre la lógica de tu script, de manera que te sirva para un README y también como base para un informe académico.
+
+Detalle de la solución – Agente BDI con Campo de Potenciales
+1. Contexto del problema
+
+El agente debe moverse desde una posición inicial hacia un objetivo, en un entorno con obstáculos que forman una herradura. Este tipo de entorno es problemático para los campos de potencial clásicos, porque pueden generar mínimos locales que atrapan al agente sin permitirle alcanzar el objetivo.
+
+Para resolverlo, se diseñó un agente con arquitectura BDI (Belief-Desire-Intention) que combina:
+
+Potenciales artificiales (atracción + repulsión) para la navegación.
+
+Estados BDI para detectar y responder a situaciones de atasco o bloqueo.
+
+2. Componentes del script
+a) Campo de Potenciales
+
+Potencial atractivo: empuja al agente hacia el objetivo.
+
+Potencial repulsivo: evita colisiones con obstáculos.
+
+Se calcula un gradiente numérico para obtener la dirección de movimiento.
+
+b) Arquitectura BDI
+
+El agente mantiene:
+
+Creencias (Beliefs): su posición actual, historial de movimiento y obstáculos.
+
+Deseos (Desires): llegar al objetivo, escapar de atascos o evitar zonas problemáticas.
+
+Intenciones (Intentions): acciones concretas de movimiento según el estado actual.
+
+Los estados implementados son:
+
+Navegando: sigue el gradiente de potencial hacia el objetivo.
+
+Atascado: detectado cuando el desplazamiento es mínimo en varias iteraciones consecutivas.
+
+Evitando: rodea zonas previamente identificadas como atascos.
+
+Escapando: aplica una fuerza de escape persistente para salir de trampas como la herradura.
+
+Completado: se alcanza el objetivo final.
+
+c) Mecanismos clave contra la herradura
+
+Detección de atascos: cuando en 10 pasos el agente casi no se ha movido.
+
+Memoria de puntos de atasco: almacena coordenadas donde se quedó atrapado.
+
+Estrategia de escape persistente: genera una dirección fuerte y la mantiene durante varias iteraciones, para forzar la salida.
+
+Estrategia de evitación: si se acerca a un punto de atasco guardado, prioriza rodear esa zona en vez de insistir en atravesarla.
+
+3. Resultados observados
+
+El agente logra llegar al objetivo final incluso en presencia de la herradura.
+
+Se observa cómo el estado “escapar” le permite salir de los mínimos locales.
+
+La energía potencial del sistema disminuye en el tiempo, mostrando convergencia hacia el objetivo.
+
+La trayectoria incluye maniobras de rodear y esquivar obstáculos, propias de un sistema BDI con memoria.
+
+4. Conclusiones
+
+La integración de un modelo BDI con campos de potencial resuelve los problemas típicos de mínimos locales.
+
+El mecanismo de memoria de atascos y el escape persistente son claves para que el agente salga de configuraciones cerradas como la herradura.
+
+Aunque el camino no siempre es el más corto, el agente garantiza llegar al objetivo, lo cual es fundamental en entornos dinámicos o complejos.
+
+Esta solución es escalable: pueden agregarse más heurísticas (ej. exploración sistemática o respaldo con A*) para mejorar la eficiencia.
